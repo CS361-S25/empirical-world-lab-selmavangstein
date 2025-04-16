@@ -14,4 +14,16 @@ int main(int argc, char* argv[])
   emp::Random random(2);
   OrgWorld world(random);
 
+  Organism* new_org = new Organism(&random);
+  world.Inject(*new_org);
+  world.Resize(10,10);
+
+  //update 10 times
+  for (int i = 0; i < 15; ++i) {
+    world.Update();
+  }
+
+  ::std::cout << world.size() << std::endl;
+  ::std::cout << world.GetNumOrgs() << std::endl;
+
 }

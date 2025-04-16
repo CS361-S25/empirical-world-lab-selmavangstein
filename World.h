@@ -22,8 +22,25 @@ class OrgWorld : public emp::World<Organism> {
     }
 
   void Update() {
-      emp::World<Organism>::Update();
-      std::cout << "Updating!" << std::endl; //feel free to get rid of this     
+    //emp::World<Organism>::Update(); //should I still call this?
+    std::cout << "Updating!" << std::endl; //feel free to get rid of this
+
+    emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
+    for (int i : schedule) {
+        if(!IsOccupied(i)) {continue;}
+        pop[i]->Process(100);
+    }
+
+    schedule = emp::GetPermutation(random, GetSize());
+    for (int i : schedule) {
+        if(!IsOccupied(i)) {continue;}
+        emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
+
+        if(offspring) {
+            DoBirth(*offspring, i);  //i is the parent's position in the world
+        }
+    }
+
   }
 
 };
