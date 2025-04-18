@@ -33,16 +33,10 @@ class AEAnimator : public emp::web::Animate {
         doc << canvas;
         doc << GetToggleButton("Toggle");
         doc << GetStepButton("Step");
-
-        /* SpeciesA* new_org = new SpeciesA(&random);
-        world.Inject(*new SpeciesA(&random));
-        SpeciesB* new_org = new SpeciesB(&random);
-        world.Inject(*new_org); */
-        world.Inject(*new SpeciesA(&random));
-        world.Inject(*new SpeciesB(&random)); //issue: we dont store a pointer, so the wrong reproduction function is called later
         world.Resize(num_h_boxes, num_w_boxes);
+        world.AddOrgAt(new SpeciesA(&random), 0);
+        world.AddOrgAt(new SpeciesB(&random), 1);
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
-
     }
 
     void DoFrame() override {

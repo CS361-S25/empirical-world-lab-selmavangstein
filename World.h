@@ -30,13 +30,12 @@ class OrgWorld : public emp::World<Organism> {
 
 
     void Update() {
-        //std::cout << "Updating!" << std::endl; //feel free to get rid of this
         emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
         for (int i : schedule) {
             if(!IsOccupied(i)) {continue;}
             pop[i]->Process(100);
 
-            //abstract this at some point. Current issue: sometimes it moves too far
+            //abstract this at some point
             emp::Ptr<Organism> org = ExtractOrganism(i);
             emp::WorldPosition newPos = GetRandomNeighborPos(i);
             if(IsOccupied(newPos)) {AddOrgAt(org, i);}
@@ -49,10 +48,9 @@ class OrgWorld : public emp::World<Organism> {
             emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
 
             if(offspring) {
-                //abstract this at some point.
+                //can be abstracted
                 emp::WorldPosition newPos = GetRandomNeighborPos(i);
-                if(IsOccupied(newPos)) {AddOrgAt(offspring, i);}
-                else {AddOrgAt(offspring, newPos);}
+                if(!IsOccupied(newPos)) {AddOrgAt(offspring, newPos);}
             }
         }
 

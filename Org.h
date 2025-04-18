@@ -31,7 +31,7 @@ class Organism {
     void SetPoints(int _in) {points = _in;}
 
     virtual emp::Ptr<Organism> CheckReproduction(){
-        /* if (points > 1000 && species == 0) {
+        if (points > 1000 && species == 0) {
             emp::Ptr<Organism> offspring = new Organism(*this);
             offspring->SetPoints(0);
             points -= 1000;
@@ -41,14 +41,11 @@ class Organism {
             emp::Ptr<Organism> offspring = new Organism(*this);
             offspring->SetPoints(0);
             points -= 300;
-            ::std::cout << "Reproducing!" << std::endl;
             return offspring;
         } else {
             return nullptr;
         }
-      */
-    std::cout << "WRONG CheckReproduction" << std::endl;
-    return nullptr;   
+      
     }
 };
 #endif

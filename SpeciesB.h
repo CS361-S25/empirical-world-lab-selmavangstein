@@ -13,17 +13,16 @@ class SpeciesB : public Organism{
 
         void Process(int _pts) override {
             SetPoints(GetPoints() + (_pts/2));
-            //std::cout << "Processing" << std::endl; //feel free to get rid of this
         }
 
         int GetSpecies() override {return 1;}
 
         emp::Ptr<Organism> CheckReproduction() override{
             int points = GetPoints();
-            if (points > 10000) { // make this an instance variable - birthThreshold or something. Make it a const?
+            if (points > 600) {
                 emp::Ptr<Organism> offspring = new Organism(*this);
                 offspring->SetPoints(0);
-                points -= 10000;
+                points -= 600;
                 SetPoints(points);
                 ::std::cout << "Reproducing!" << std::endl;
                 return offspring;

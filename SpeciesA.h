@@ -13,7 +13,6 @@ class SpeciesA : public Organism{
 
         void Process(int _pts) override {
             SetPoints(GetPoints() + _pts);
-            //std::cout << "Processing" << std::endl; //feel free to get rid of this
         }
 
         int GetSpecies() override {return 0;}
