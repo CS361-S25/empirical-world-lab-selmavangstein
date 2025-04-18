@@ -30,16 +30,16 @@ class OrgWorld : public emp::World<Organism> {
 
 
     void Update() {
-        //emp::World<Organism>::Update(); //should I still call this?
-        std::cout << "Updating!" << std::endl; //feel free to get rid of this
-
+        //std::cout << "Updating!" << std::endl; //feel free to get rid of this
         emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
         for (int i : schedule) {
             if(!IsOccupied(i)) {continue;}
             pop[i]->Process(100);
+
+            //abstract this at some point. Current issue: sometimes it moves too far
             emp::Ptr<Organism> org = ExtractOrganism(i);
             emp::WorldPosition newPos = GetRandomNeighborPos(i);
-            if(IsOccupied(newPos)) {AddOrgAt(org, i);} //MIGHT HAVE TO CHANGE THIS
+            if(IsOccupied(newPos)) {AddOrgAt(org, i);}
             else {AddOrgAt(org, newPos);}
         }
 
@@ -49,7 +49,10 @@ class OrgWorld : public emp::World<Organism> {
             emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
 
             if(offspring) {
-                DoBirth(*offspring, i);  //i is the parent's position in the world
+                //abstract this at some point.
+                emp::WorldPosition newPos = GetRandomNeighborPos(i);
+                if(IsOccupied(newPos)) {AddOrgAt(offspring, i);}
+                else {AddOrgAt(offspring, newPos);}
             }
         }
 
@@ -58,5 +61,3 @@ class OrgWorld : public emp::World<Organism> {
 
 };
 #endif
-
-//CHANGE ONE ORGANISMS BEHAVIOR

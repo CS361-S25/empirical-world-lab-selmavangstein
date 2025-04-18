@@ -18,24 +18,37 @@ class Organism {
     void AddPoints(double _in) {points += _in;}
 
 
-    void Process(int _pts) {
-        //std::cout << "Processing" << std::endl; //feel free to get rid of this
-        points += _pts;
+    virtual void Process(int _pts) {
+        if (species == 0){
+            points += _pts;
+        } else {
+            points += _pts/2;
+        }
     }
 
-    int GetSpecies() {return species;}
+     virtual int GetSpecies() {return species;}
+    int GetPoints() {return points;}
+    void SetPoints(int _in) {points = _in;}
 
-    emp::Ptr<Organism> CheckReproduction(){
-        if (points > 1000) {
+    virtual emp::Ptr<Organism> CheckReproduction(){
+        /* if (points > 1000 && species == 0) {
             emp::Ptr<Organism> offspring = new Organism(*this);
             offspring->SetPoints(0);
             points -= 1000;
             ::std::cout << "Reproducing!" << std::endl;
             return offspring;
+        } else if (points > 300 && species == 1) {
+            emp::Ptr<Organism> offspring = new Organism(*this);
+            offspring->SetPoints(0);
+            points -= 300;
+            ::std::cout << "Reproducing!" << std::endl;
+            return offspring;
         } else {
             return nullptr;
         }
-        
+      */
+    std::cout << "WRONG CheckReproduction" << std::endl;
+    return nullptr;   
     }
 };
 #endif
