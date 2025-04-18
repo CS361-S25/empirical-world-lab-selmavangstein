@@ -41,7 +41,6 @@ class OrgWorld : public emp::World<Organism> {
             emp::WorldPosition newPos = GetRandomNeighborPos(i);
             if(IsOccupied(newPos)) {AddOrgAt(org, i);} //MIGHT HAVE TO CHANGE THIS
             else {AddOrgAt(org, newPos);}
-            AddOrgAt(org, newPos);
         }
 
         schedule = emp::GetPermutation(random, GetSize());
@@ -59,3 +58,5 @@ class OrgWorld : public emp::World<Organism> {
 
 };
 #endif
+
+//CHANGE ONE ORGANISMS BEHAVIOR
