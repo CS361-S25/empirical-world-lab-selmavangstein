@@ -21,27 +21,41 @@ class OrgWorld : public emp::World<Organism> {
     ~OrgWorld() {
     }
 
-  void Update() {
-    //emp::World<Organism>::Update(); //should I still call this?
-    std::cout << "Updating!" << std::endl; //feel free to get rid of this
-
-    emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
-    for (int i : schedule) {
-        if(!IsOccupied(i)) {continue;}
-        pop[i]->Process(100);
+    //This function removes the organism at position i and returns it
+    emp::Ptr<Organism> ExtractOrganism(int i) {
+        emp::Ptr<Organism> org = pop[i];
+        pop[i] = nullptr;
+        return org;
     }
 
-    schedule = emp::GetPermutation(random, GetSize());
-    for (int i : schedule) {
-        if(!IsOccupied(i)) {continue;}
-        emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
 
-        if(offspring) {
-            DoBirth(*offspring, i);  //i is the parent's position in the world
+    void Update() {
+        //emp::World<Organism>::Update(); //should I still call this?
+        std::cout << "Updating!" << std::endl; //feel free to get rid of this
+
+        emp::vector<size_t> schedule = emp::GetPermutation(random, GetSize());
+        for (int i : schedule) {
+            if(!IsOccupied(i)) {continue;}
+            pop[i]->Process(100);
+            emp::Ptr<Organism> org = ExtractOrganism(i);
+            emp::WorldPosition newPos = GetRandomNeighborPos(i);
+            if(IsOccupied(newPos)) {AddOrgAt(org, i);} //MIGHT HAVE TO CHANGE THIS
+            else {AddOrgAt(org, newPos);}
+            AddOrgAt(org, newPos);
         }
-    }
 
-  }
+        schedule = emp::GetPermutation(random, GetSize());
+        for (int i : schedule) {
+            if(!IsOccupied(i)) {continue;}
+            emp::Ptr<Organism> offspring = pop[i]->CheckReproduction();
+
+            if(offspring) {
+                DoBirth(*offspring, i);  //i is the parent's position in the world
+            }
+        }
+
+
+    }
 
 };
 #endif
